@@ -33,6 +33,7 @@ import javax.naming.directory.*;
 
 
 import java.util.*;
+import java.util.concurrent.Executor;
 
 import com.octetstring.jdbcLdap.sql.*;
 import com.octetstring.jdbcLdap.sql.statements.JdbcLdapInsert;
@@ -407,32 +408,20 @@ public class JndiLdapConnection implements java.sql.Connection {
 				} catch (LDAPException e1) {
 					throw new SQLNamingException(e1);
 				}
-            } 
-            
-            
-            else {
+            } else {
                 //env.put(prop,props.getProperty(prop));
             	//TODO map other properties
             }
             
+            if (user != null && pass != null && !con.isBound()) {
+            	try {
+            		con.bind(3,user,pass.getBytes());
+            	} catch (LDAPException e) {
+        			throw new SQLNamingException(e);
+        		}
+            }
+            
         }
-        
-        try {
-			if (user != null && pass != null) con.bind(3,user,pass.getBytes());
-        	
-		} catch (LDAPException e) {
-			throw new SQLNamingException(e);
-		}
-             
-       
-        
-        
-        
-        
-        
-        
-        
-        
     }
 
     public void setTransactionIsolation(int param) throws java.sql.SQLException {
@@ -840,5 +829,95 @@ public class JndiLdapConnection implements java.sql.Connection {
 	 */
 	public Map getTableDefs() {
 		return this.tables;
+	}
+
+	public Object unwrap(Class iface) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isWrapperFor(Class iface) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Clob createClob() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Blob createBlob() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public NClob createNClob() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public SQLXML createSQLXML() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isValid(int timeout) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setClientInfo(String name, String value) throws SQLClientInfoException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setClientInfo(Properties properties) throws SQLClientInfoException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getClientInfo(String name) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Properties getClientInfo() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setSchema(String schema) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getSchema() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void abort(Executor executor) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public int getNetworkTimeout() throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

@@ -154,6 +154,26 @@ public class JdbcLdapSelect extends com.octetstring.jdbcLdap.sql.statements.Jdbc
         
         //First, break the statement up into it's parts
         
+        //Figure out the base context
+        begin = sql.indexOf(FROM,sql.indexOf(FROM)) + FROM_SIZE;
+        end = sql.indexOf(WHERE,begin);
+        
+        //If there is no where clause
+        if (end != -1) {
+            this.from = SQL.substring(begin,end).trim();
+            whereFound = true;
+        }
+        else {
+        	end = sql.indexOf(" order by ",begin);
+            if (end != -1) {
+            	this.from = SQL.substring(begin,end).trim();
+            	procOrderBy(SQL, end);
+            } else {
+            	this.from = SQL.substring(begin).trim();
+            }
+        	
+        }
+        
         //Determine the attributes to return
         begin = sql.indexOf(SELECT) + SELECT_SIZE;
         end = sql.indexOf(FROM);
@@ -161,7 +181,8 @@ public class JdbcLdapSelect extends com.octetstring.jdbcLdap.sql.statements.Jdbc
         fields = SQL.substring(begin,end);
         fields = fields.trim();
         
-        if (! fields.equalsIgnoreCase(WILDCARD)) {
+        if (! fields.equalsIgnoreCase(WILDCARD) && 
+        		!fields.equalsIgnoreCase("".concat(this.from).concat(".").concat(WILDCARD))) {
             StringTokenizer toker = new StringTokenizer(fields,",");
             this.fields = new String[toker.countTokens()];
             int i = 0;
@@ -180,6 +201,8 @@ public class JdbcLdapSelect extends com.octetstring.jdbcLdap.sql.statements.Jdbc
                 	}
                 	this.fieldMap.put(asName,fieldName);
                 	this.revFieldMap.put(fieldName,asName);
+                } else if (this.fields[i].toLowerCase().startsWith("".concat(this.from).concat(".").toLowerCase())) {
+                	this.fields[i] = this.fields[i].substring("".concat(this.from).concat(".").length());
                 }
                 
                 if (this.fields[i].equalsIgnoreCase(DN_FIELD)) this.retreiveDN = true;
@@ -191,24 +214,23 @@ public class JdbcLdapSelect extends com.octetstring.jdbcLdap.sql.statements.Jdbc
             this.retreiveDN = true;
         }
         
-        //Figure out the base context
-        begin = sql.indexOf(FROM,end) + FROM_SIZE;
-        end = sql.indexOf(WHERE,begin);
+        //Where portion
         
-        //If there is no where clause
-        if (end != -1) {
-            this.from = SQL.substring(begin,end).trim();
-            whereFound = true;
-        }
-        else {
-        	end = sql.indexOf(" order by ",begin);
+        
+        if (whereFound) {
+            begin = sql.indexOf(WHERE,end) + WHERE_SIZE;
+            end = sql.indexOf(" order by ",begin);
             if (end != -1) {
-            	this.from = SQL.substring(begin,end).trim();
+            	String where = sqlArgsToLdap(SQL.substring(begin,end).trim());
+            	this.where = con.nativeSQL(where.replaceAll(this.from + "[.]", ""),this.fieldMap);
             	procOrderBy(SQL, end);
             } else {
-            	this.from = SQL.substring(begin).trim();
+            	String where = sqlArgsToLdap(SQL.substring(begin).trim());
+            	this.where = con.nativeSQL(where.replaceAll(this.from + "[.]", ""),this.fieldMap);
             }
-        	
+        }
+        else {
+            this.where = DEFAULT_SEARCH_FILTER;
         }
         
         //determine if we are working with a table
@@ -234,23 +256,6 @@ public class JdbcLdapSelect extends com.octetstring.jdbcLdap.sql.statements.Jdbc
         else {
             this.scope = scope.intValue();
         }
-        
-        //Where portion
-        
-        
-        if (whereFound) {
-            begin = sql.indexOf(WHERE,end) + WHERE_SIZE;
-            end = sql.indexOf(" order by ",begin);
-            if (end != -1) {
-            	this.where = con.nativeSQL(sqlArgsToLdap(SQL.substring(begin,end).trim()),this.fieldMap);
-            	procOrderBy(SQL, end);
-            } else {
-            	this.where = con.nativeSQL(sqlArgsToLdap(SQL.substring(begin).trim()),this.fieldMap);
-            }
-        }
-        else {
-            this.where = DEFAULT_SEARCH_FILTER;
-        }      
         
         System.out.println("Sort by : " + this.sortBy );
         

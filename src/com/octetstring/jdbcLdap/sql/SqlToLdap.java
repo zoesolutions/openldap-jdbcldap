@@ -262,6 +262,8 @@ public class SqlToLdap {
         int i;
         char curr;
         char[] tmp = new char[1];
+        boolean string = false;
+        boolean escape = false;
         
         for (i=0;i<expr.length();i++) {
             curr = expr.charAt(i);
@@ -281,15 +283,24 @@ public class SqlToLdap {
                 list.add(new String(tmp));
             }
             else {
-                //if we are at a space, detrmine if we need to add to the list
-                if (curr == ' ') {
-                    if (! addToList(list,buf,fieldMap))
-                        buf.append(curr);
-                }
-                else {
-                    //add to the buffer instead
-                    buf.append(curr);
-                }
+            	if (curr == '\\') {
+            		escape = true;
+            		buf.append(curr);
+            	} else {
+            		if (curr == ' ' && escape) {
+            			buf.append(curr);
+            		} else if (curr == ' ' && string) {
+            			buf.append(curr);
+            		} else if (curr == ' ') {
+            			addToList(list,buf,fieldMap);
+            		} else if (curr == '\'' && !escape) {
+            			string = !string;
+            		} else {
+            			buf.append(curr);
+            		}
+            		
+            		escape = false;
+            	}            	
             }
         }
         

@@ -272,5 +272,130 @@ public class JdbcLdapPreparedStatement extends JdbcLdapStatement implements java
     public void setNull(int param, int param1, java.lang.String str) throws java.sql.SQLException {
         setVal(param,null);
     }
+
+	public boolean isClosed() throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setPoolable(boolean poolable) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isPoolable() throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void closeOnCompletion() throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isCloseOnCompletion() throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Object unwrap(Class iface) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isWrapperFor(Class iface) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setRowId(int parameterIndex, RowId x) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setNString(int parameterIndex, String value) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setNCharacterStream(int parameterIndex, Reader value, long length) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setNClob(int parameterIndex, NClob value) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setClob(int parameterIndex, Reader reader, long length) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBlob(int parameterIndex, InputStream inputStream, long length) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setNClob(int parameterIndex, Reader reader, long length) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setSQLXML(int parameterIndex, SQLXML xmlObject) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setAsciiStream(int parameterIndex, InputStream x, long length) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBinaryStream(int parameterIndex, InputStream x, long length) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setCharacterStream(int parameterIndex, Reader reader, long length) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setAsciiStream(int parameterIndex, InputStream x) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBinaryStream(int parameterIndex, InputStream x) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setCharacterStream(int parameterIndex, Reader reader) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setNCharacterStream(int parameterIndex, Reader value) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setClob(int parameterIndex, Reader reader) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBlob(int parameterIndex, InputStream inputStream) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setNClob(int parameterIndex, Reader reader) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

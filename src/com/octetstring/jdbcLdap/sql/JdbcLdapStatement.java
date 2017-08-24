@@ -333,4 +333,53 @@ public class JdbcLdapStatement implements java.sql.Statement {
 		this.timeOut = param;
 	}
 
+
+
+	public Object unwrap(Class iface) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	public boolean isWrapperFor(Class iface) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	public boolean isClosed() throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	public void setPoolable(boolean poolable) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public boolean isPoolable() throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	public void closeOnCompletion() throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public boolean isCloseOnCompletion() throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

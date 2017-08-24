@@ -9,6 +9,7 @@ package com.octetstring.jdbcLdap.sql;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.RowIdLifetime;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1383,6 +1384,64 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 			String foreignSchema, String foreignTable) throws SQLException {
 		
 		return null;
+	}
+
+	public Object unwrap(Class iface) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isWrapperFor(Class iface) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public RowIdLifetime getRowIdLifetime() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ResultSet getSchemas(String catalog, String schemaPattern) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean supportsStoredFunctionsUsingCallSyntax() throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean autoCommitFailureClosesAllResultSets() throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public ResultSet getClientInfoProperties() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ResultSet getFunctions(String catalog, String schemaPattern, String functionNamePattern)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ResultSet getFunctionColumns(String catalog, String schemaPattern, String functionNamePattern,
+			String columnNamePattern) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ResultSet getPseudoColumns(String catalog, String schemaPattern, String tableNamePattern,
+			String columnNamePattern) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean generatedKeyAlwaysReturned() throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

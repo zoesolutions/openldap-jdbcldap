@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="lib/ldap.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jface_3.12.2.v20170113-2113.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.swt_3.105.3.v20170228-0512.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.swt.cocoa.macosx.x86_64_3.105.3.v20170228-0512.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

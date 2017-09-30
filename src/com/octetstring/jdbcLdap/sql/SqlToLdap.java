@@ -262,9 +262,13 @@ public class SqlToLdap {
         int i;
         char curr;
         char[] tmp = new char[1];
-        boolean string = false;
-        boolean escape = false;
         
+        // flag indicating, if the current character is read inside a string (i.e. inside single quotes)
+        boolean string = false;
+        // flag indicating, if the current character is read escaped (i.e. the previous character was an
+        // escape character
+        boolean escape = false;
+
         for (i=0;i<expr.length();i++) {
             curr = expr.charAt(i);
             
@@ -283,24 +287,46 @@ public class SqlToLdap {
                 list.add(new String(tmp));
             }
             else {
-            	if (curr == '\\') {
-            		escape = true;
-            		buf.append(curr);
-            	} else {
-            		if (curr == ' ' && escape) {
-            			buf.append(curr);
-            		} else if (curr == ' ' && string) {
-            			buf.append(curr);
-            		} else if (curr == ' ') {
-            			addToList(list,buf,fieldMap);
-            		} else if (curr == '\'' && !escape) {
-            			string = !string;
-            		} else {
+            		// check if the current character is the escape character
+            		if (curr == '\\') {
+            			// the next character will be escaped
+            			escape = true;
+            			// append the escape character to the buffer
             			buf.append(curr);
             		}
-            		
-            		escape = false;
-            	}            	
+            		// the current character is not the escape character
+            		else {
+            			// check if the current character is an escaped space
+            			if (curr == ' ' && escape) {
+            				// append the character to the buffer
+            				buf.append(curr);
+            			}
+            			// check if the current character is a space inside a string
+            			else if (curr == ' ' && string) {
+            				// append the character to the buffer
+            				buf.append(curr);
+            			}
+            			// check if the current character is a non-escpaed space character not inside a string
+            			else if (curr == ' ') {
+            				// try to add the buffer to the list
+            				if (!addToList(list,buf,fieldMap)) {
+            					// buffer was not added to the list, add the character to the buffer
+            					buf.append(curr);
+            				}
+            			}
+            			// check if the current character is a non-escaped single quote character starting or
+            			// ending a string
+            			else if (curr == '\'' && !escape) {
+            				// remember that a string was started or ended
+            				string = !string;
+            			} else {
+            				// append the character to the buffer
+            				buf.append(curr);
+            			}
+
+            			// escaping ends one character after the escape character
+            			escape = false;
+            		}
             }
         }
         

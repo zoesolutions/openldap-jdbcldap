@@ -65,10 +65,10 @@ public class TestResultSet extends junit.framework.TestCase {
         String field;
         
         
-        LDAPMessageQueue enum = (LDAPMessageQueue) sel.executeQuery();
+        LDAPMessageQueue enume = (LDAPMessageQueue) sel.executeQuery();
         
         UnpackResults pack = new UnpackResults(con);
-        pack.unpackJldap(enum,sel.getRetrieveDN(),sel.getSqlStore().getFrom(),con.getBaseDN(),sel.getSqlStore().getRevFieldMap());
+        pack.unpackJldap(enume,sel.getRetrieveDN(),sel.getSqlStore().getFrom(),con.getBaseDN(),sel.getSqlStore().getRevFieldMap());
         
         LdapResultSet rs = new LdapResultSet(con,null,pack,sel.getBaseContext());
         
@@ -135,10 +135,10 @@ public class TestResultSet extends junit.framework.TestCase {
         String field;
         StringBuffer buf = new StringBuffer();
         
-        LDAPMessageQueue enum = (LDAPMessageQueue) sel.executeQuery();
+        LDAPMessageQueue enume = (LDAPMessageQueue) sel.executeQuery();
         
         UnpackResults pack = new UnpackResults(con);
-        pack.unpackJldap(enum,sel.getRetrieveDN(),sel.getSqlStore().getFrom(),con.getBaseDN(),sel.getSqlStore().getRevFieldMap());
+        pack.unpackJldap(enume,sel.getRetrieveDN(),sel.getSqlStore().getFrom(),con.getBaseDN(),sel.getSqlStore().getRevFieldMap());
         
         LdapResultSet rs = new LdapResultSet(con,null,pack,sel.getBaseContext());
         

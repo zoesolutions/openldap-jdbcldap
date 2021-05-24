@@ -213,9 +213,9 @@ public class TestSelectRetrieve extends junit.framework.TestCase {
     
     /**
      *Loads a NamingEnumeration into a LinkedList
-     *@param enum Search Results
+     *@param enume Search Results
      */
-    LinkedList load(NamingEnumeration enum) throws Exception {
+    LinkedList load(NamingEnumeration enume) throws Exception {
         LinkedList list = new LinkedList();
         LinkedList row;
         SearchResult res;
@@ -227,9 +227,9 @@ public class TestSelectRetrieve extends junit.framework.TestCase {
         String val;
         Object obj;
         
-        while (enum.hasMore()) {
+        while (enume.hasMore()) {
             row = new LinkedList();
-            res = (SearchResult) enum.next();
+            res = (SearchResult) enume.next();
             //System.out.println(res.getName());
             atts = (Attributes) res.getAttributes();
             

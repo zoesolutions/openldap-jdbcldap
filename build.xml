@@ -34,6 +34,7 @@
 	<jar jarfile="${jars}/jdbcLdap.jar">
             <fileset dir="${classes}" includes="**/*.class" excludes="**/TestSQL.class"/>
 			<fileset dir="${src}" includes="**/*.java"/>
+        <metainf dir="${src}/META-INF" includes="**/*"/>
 	</jar>
 	<copy file="${jars}/jdbcLdap.jar" todir="${lib}"/>
 	<!--

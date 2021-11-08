@@ -77,16 +77,13 @@ public class JdbcLdapMetaData implements java.sql.ResultSetMetaData {
     
     
     public java.lang.String getColumnTypeName(int param) throws java.sql.SQLException {
-        int coltype = ((Integer) unpack.getFieldTypes().get(param-1)).intValue();
-        switch (coltype) {
-            case Types.VARCHAR : return "VARCHAR";
-            case Types.DOUBLE : return "DOUBLE";
-            case Types.INTEGER : return "INTEGER";
-            case Types.DATE : return "DATE";
-            case Types.TIME : return "TIME";
-            case Types.TIMESTAMP : return "TIMESTAMP";
-            default :throw new SQLException("Illegal Type");
-        }
+        Integer coltype = ((Integer) unpack.getFieldTypes().get(param-1));
+        java.lang.String rv=null;
+        if(Mappings.intstonames.get(coltype)!=null)
+            rv=Mappings.intstonames.get(coltype).toString();
+        else
+            throw new SQLException("Illegal Type");
+        return rv;
     }
     
     

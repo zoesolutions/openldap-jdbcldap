@@ -1075,7 +1075,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getExtraNameCharacters() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1083,7 +1083,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getIdentifierQuoteString() throws SQLException {
 		
-		return null;
+		return " ";
 	}
 
 	/* (non-Javadoc)
@@ -1091,7 +1091,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getNumericFunctions() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1107,7 +1107,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getSQLKeywords() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1131,7 +1131,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getStringFunctions() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1139,7 +1139,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getSystemFunctions() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1147,7 +1147,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getTimeDateFunctions() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)

@@ -272,7 +272,14 @@ public class JdbcLdapStatement implements java.sql.Statement {
 	}
 
 	public boolean getMoreResults() throws java.sql.SQLException {
-		return true;
+		if (rs.isClosed()) {
+			return false;
+		}
+		boolean result = rs.next();
+		if (!result) {
+			rs.close();
+		}
+		return result;
 	}
 
 	public boolean getMoreResults(int param) throws java.sql.SQLException {

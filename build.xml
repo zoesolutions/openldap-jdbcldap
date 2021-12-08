@@ -16,10 +16,11 @@
 
     <target depends="init" name="build" description="Builds the drivers" >
         <mkdir dir="${classes}"/>
-        <javac source="1.4" target="1.4" destdir="${classes}" includes="com/octetstring/**" srcdir="${src}" debug="true">
+        <javac source="1.6" target="1.6" destdir="${classes}" includes="com/octetstring/**" srcdir="${src}" debug="true">
             <classpath>
                 <pathelement location="${lib}/junit-4.12.jar" />
-            	<pathelement location="${lib}/ldap.jar" />
+                <pathelement location="${lib}/ldap.jar" />
+                <pathelement location="${lib}/log4j.jar" />
             	<pathelement location="${lib}/org.eclipse.jface_3.12.2.v20170113-2113.jar" />
             	<pathelement location="${lib}/org.eclipse.swt_3.105.3.v20170228-0512.jar" />
             	<pathelement location="${lib}/org.eclipse.swt.cocoa.macosx.x86_64_3.105.3.v20170228-0512.jar" />
@@ -33,6 +34,7 @@
 	<jar jarfile="${jars}/jdbcLdap.jar">
             <fileset dir="${classes}" includes="**/*.class" excludes="**/TestSQL.class"/>
 			<fileset dir="${src}" includes="**/*.java"/>
+        <metainf dir="${src}/META-INF" includes="**/*"/>
 	</jar>
 	<copy file="${jars}/jdbcLdap.jar" todir="${lib}"/>
 	<!--

@@ -48,6 +48,7 @@ import com.octetstring.jdbcLdap.util.TableDef;
  *@author Marc Boorshtein, OctetString
  */
 public class JndiLdapConnection implements java.sql.Connection {
+	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(JndiLdapConnection.class);
 	/** URL parameter containing the DSMLv2 Base */
 	public static final String DSML_BASE_DN = "DSML_BASE_DN";
 	
@@ -762,51 +763,65 @@ public class JndiLdapConnection implements java.sql.Connection {
 			}
 			
 			String addPattern = props.getProperty("table." + i + ".addPattern");
-			toker = new StringTokenizer(addPattern,"|");
-			
 			HashMap addPatternMap = new HashMap();
-			
-			while (toker.hasMoreTokens()) {
-				String pattern = toker.nextToken();
-				HashSet dontAddSet = new HashSet();
-				String defOC = null;
-				if (pattern.indexOf('#') != -1) {
-					String dontAdd = pattern.substring(pattern.indexOf('#') + 1);
-					StringTokenizer tokda = new StringTokenizer(dontAdd,",");
-					
-					while (tokda.hasMoreTokens()) {
-						dontAddSet.add(tokda.nextToken().toUpperCase());
+			if(addPattern!=null)
+			{
+				toker = new StringTokenizer(addPattern, "|");
+
+
+				while (toker.hasMoreTokens())
+				{
+					String pattern = toker.nextToken();
+					HashSet dontAddSet = new HashSet();
+					String defOC = null;
+					if (pattern.indexOf('#') != -1)
+					{
+						String dontAdd = pattern.substring(pattern.indexOf('#') + 1);
+						StringTokenizer tokda = new StringTokenizer(dontAdd, ",");
+
+						while (tokda.hasMoreTokens())
+						{
+							dontAddSet.add(tokda.nextToken().toUpperCase());
+						}
+						pattern = pattern.substring(0, pattern.indexOf('#'));
 					}
-					pattern = pattern.substring(0, pattern.indexOf('#'));
-				}
-				
-				if (pattern.indexOf('&') != -1) {
-					defOC = pattern.substring(pattern.indexOf('&') + 1);
-					pattern = pattern.substring(0,pattern.indexOf('&'));
-				}
-				
-				AddPattern pat = new AddPattern(pattern,dontAddSet,defOC);
-				StringTokenizer tokpat = new StringTokenizer(pattern,",");
-				HashMap curr = addPatternMap;
-				while (tokpat.hasMoreTokens()) {
-					String node = tokpat.nextToken();
-					
-					Object o = curr.get(node);
-					if (o == null) {
-						if (tokpat.hasMoreTokens()) {
-							HashMap n = new HashMap();
-							curr.put(node,n);
-							curr = n;
-						} else {
-							curr.put(node,pat);
+
+					if (pattern.indexOf('&') != -1)
+					{
+						defOC = pattern.substring(pattern.indexOf('&') + 1);
+						pattern = pattern.substring(0, pattern.indexOf('&'));
+					}
+
+					AddPattern pat = new AddPattern(pattern, dontAddSet, defOC);
+					StringTokenizer tokpat = new StringTokenizer(pattern, ",");
+					HashMap curr = addPatternMap;
+					while (tokpat.hasMoreTokens())
+					{
+						String node = tokpat.nextToken();
+
+						Object o = curr.get(node);
+						if (o == null)
+						{
+							if (tokpat.hasMoreTokens())
+							{
+								HashMap n = new HashMap();
+								curr.put(node, n);
+								curr = n;
+							}
+							else
+							{
+								curr.put(node, pat);
+							}
 						}
 					}
 				}
 			}
-			
 			TableDef tbl = new TableDef(name,base,scope,ocs,this.con,addPatternMap);
+			CLASS_LOGGER.debug(tbl.getAddPatterns());
 			this.tables.put(name,tbl);
+			CLASS_LOGGER.debug(name+" "+tbl);
 		}
+		CLASS_LOGGER.debug(this.tables);
 		
 	}
 

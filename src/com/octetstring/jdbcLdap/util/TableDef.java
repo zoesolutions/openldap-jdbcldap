@@ -28,6 +28,7 @@ import com.novell.ldap.LDAPSchema;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class TableDef {
+	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(TableDef.class);
 
 	String dn;
 	String scope;
@@ -119,12 +120,15 @@ public class TableDef {
 		
 		for (int i=0,m=objectClasses.length;i<m;i++) {
 			String oc = objectClasses[i];
+			CLASS_LOGGER.debug(proced);
+			CLASS_LOGGER.debug(i+" "+oc+" "+(proced.contains(oc)));
 			if (! proced.contains(oc)) {
 				LDAPObjectClassSchema ocSchema = schema.getObjectClassSchema(oc);
 				
 				String[] sups;
 				String sup;
 				index = extractObjectClass(schema, proced, procedAttribs, index, oc, ocSchema);
+				CLASS_LOGGER.debug(index);
 			}
 		}
 		
@@ -168,21 +172,25 @@ public class TableDef {
 		
 		if (attribs != null) {
 			for (int i=0,m=attribs.length;i<m;i++) {
+				CLASS_LOGGER.debug(i+" "+attribs[i]);
 				LinkedHashMap row = new LinkedHashMap();
 				LDAPAttributeSchema attribSchema = (LDAPAttributeSchema) schema.getAttributeSchema(attribs[i]);
 				
 				String name = attribSchema.getNames()[0];
-				
+				CLASS_LOGGER.debug(name+" "+this.name);
 				if (attribSchema == null || procedAttribs.contains(attribSchema.getNames()[0])) {
 					continue;
 				}
-				
+				java.lang.String as=attribSchema.getSyntaxString();
+				CLASS_LOGGER.debug(as);
+				if((as==null)||(as.trim().length()<1))
+					as="1.3.6.1.4.1.1466.115.121.1.21";
 				row.put("TABLE_CAT",null);
 				row.put("TABLE_SCHEM",null);
 				row.put("TABLE_NAME",this.name);
 				row.put("COLUMN_NAME",attribSchema.getNames()[0]);
-				row.put("DATA_TYPE",new Integer(this.getType(attribSchema.getSyntaxString())));
-				row.put("TYPE_NAME",this.getTypeName(attribSchema.getSyntaxString()));
+				row.put("DATA_TYPE",new Integer(this.getType(as)));
+				row.put("TYPE_NAME",this.getTypeName(as));
 				row.put("COLUMN_SIZE",new Integer(255));
 				row.put("BUFFER_LENGTH",new Integer(0));
 				row.put("DECIMAL_DIGITS",new Integer(10));
@@ -216,14 +224,18 @@ public class TableDef {
 				if (attribSchema == null  || procedAttribs.contains(attribSchema.getNames()[0])) {
 					continue;
 				}
-				
-				
+
+				java.lang.String as=attribSchema.getSyntaxString();
+				CLASS_LOGGER.debug(as);
+				if((as==null)||(as.trim().length()<1))
+					as="1.3.6.1.4.1.1466.115.121.1.21";
+
 				row.put("TABLE_CAT",null);
 				row.put("TABLE_SCHEM",null);
 				row.put("TABLE_NAME",this.name);
 				row.put("COLUMN_NAME",attribSchema.getNames()[0]);
-				row.put("DATA_TYPE",new Integer(this.getType(attribSchema.getSyntaxString())));
-				row.put("TYPE_NAME",this.getTypeName(attribSchema.getSyntaxString()));
+				row.put("DATA_TYPE",new Integer(this.getType(as)));
+				row.put("TYPE_NAME",this.getTypeName(as));
 				row.put("COLUMN_SIZE",new Integer(255));
 				row.put("BUFFER_LENGTH",new Integer(0));
 				row.put("DECIMAL_DIGITS",new Integer(10));
@@ -254,10 +266,13 @@ public class TableDef {
 	 * @return
 	 */
 	private String getTypeName(String syntaxString) {
+		CLASS_LOGGER.debug(syntaxString);
 		int index = syntaxString.indexOf('{');
 		if (index != -1) {
 			syntaxString = syntaxString.substring(0,index);
 		}
+		CLASS_LOGGER.debug(syntaxString);
+		CLASS_LOGGER.debug(TableDef.syntaxToSQL);
 		return (String) TableDef.syntaxToSQL.get(syntaxString);
 	}
 

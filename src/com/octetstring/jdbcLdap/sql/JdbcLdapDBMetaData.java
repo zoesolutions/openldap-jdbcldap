@@ -26,6 +26,7 @@ import com.octetstring.jdbcLdap.util.TableDef;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class JdbcLdapDBMetaData implements DatabaseMetaData {
+	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(JdbcLdapDBMetaData.class);
 
 	private JndiLdapConnection con;
 
@@ -1074,7 +1075,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getExtraNameCharacters() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1082,7 +1083,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getIdentifierQuoteString() throws SQLException {
 		
-		return null;
+		return " ";
 	}
 
 	/* (non-Javadoc)
@@ -1090,7 +1091,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getNumericFunctions() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1106,7 +1107,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getSQLKeywords() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1130,7 +1131,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getStringFunctions() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1138,7 +1139,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getSystemFunctions() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1146,7 +1147,7 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public String getTimeDateFunctions() throws SQLException {
 		
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -1372,8 +1373,35 @@ public class JdbcLdapDBMetaData implements DatabaseMetaData {
 	 */
 	public ResultSet getTables(String catalog, String schemaPattern,
 			String tableNamePattern, String[] types) throws SQLException {
-		
-		return null;
+		CLASS_LOGGER.debug("getTables",new java.lang.Throwable());
+		CLASS_LOGGER.debug(con.getTableDefs());
+		ArrayList tbls = new ArrayList();
+		Iterator it = con.getTableDefs().keySet().iterator();
+		boolean tblStartsWith = tableNamePattern.indexOf('%') != -1;
+		while (it.hasNext())
+		{
+			TableDef tbl = (TableDef) con.getTableDefs().get(it.next());
+			CLASS_LOGGER.debug(tbl);
+			CLASS_LOGGER.debug(tbl.getName());
+			if (tableNamePattern.equals("%") || (tblStartsWith && tbl.getName().startsWith(tableNamePattern.substring(0, tableNamePattern.indexOf('%')))) || tbl.getName().equals(tableNamePattern))
+			{
+				HashMap row =new HashMap();
+//				"TABLE_CAT",
+//						"TABLE_SCHEM",
+				row.put("TABLE_NAME",tbl.getName());
+				row.put("TABLE_TYPE","TABLE");
+				row.put("REMARKS","");
+//						"TYPE_CAT",
+//						"TYPE_SCHEM","" +
+//						"TYPE_NAME",
+//						"SELF_REFERENCING_COL_NAME",
+//						"REF_GENERATION"
+				CLASS_LOGGER.debug(row);
+
+				tbls.add(row);
+			}
+		}
+		return new ObjRS(tbls);
 	}
 
 	/* (non-Javadoc)
